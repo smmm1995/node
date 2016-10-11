@@ -19,13 +19,13 @@ router.get('/',function(req,res){
     fs.exists('questions',function(ex){
         if(!ex){
             //console.log(filename)
-            send('none','未写入内容')
+           res.render('index',{})
         }else{
             //读取文件夹内部所有的文件内容
             fs.readdir('questions',function(err,files){
                 if(err)
                 {
-                    send('error','文件系统错误')
+                   res.render('index',{})
                 }
                 else{
                     console.log(files)
