@@ -1,0 +1,54 @@
+{{ include 'header'}}
+            <div class="l-center"> <span>登录</span></div>
+            <ul class=" nav navbar-right navbar-nav">
+
+                <li><a  onclick="location.href='register.html'"><span class="glyphicon glyphicon-plus" ></span></a></li>
+
+
+                </li>
+            </ul>
+        </div>
+    </nav>
+    </header>
+<main>
+    <div class="container">
+    <form action="" role="form" method="post">
+        <input type="text" class="form-control" name="name" placeholder="请输入用户名" required>
+        <input type="password" class="form-control" name="pwd" placeholder="请输入密码" required>
+        <button type="submit" class="btn-success form-control">登录</button>
+    </form>
+    </div>
+</main>
+{{include 'modal'}}
+
+<script src="js/jquery.js"></script>
+
+    <script src="js/jquery.min.js"> </script>
+    <script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src="js/template.js"></script>
+    <script>
+   $(function(){
+       $('form').submit(function(ev){
+           ev.preventDefault()
+           var data=$('form').serialize()
+           $.post('/login',data,function(res){
+                   $('.modal-body').text( res.message )
+                   $('.modal').modal('show')
+
+                   if(res.code=='right'){
+
+                       $('.modal').modal('show').on('hidden.bs.modal', function() {
+
+                           location.href = '/'
+                       })
+
+
+
+                   }
+           })
+       })
+   })
+    </script>
+</body>
+</html>

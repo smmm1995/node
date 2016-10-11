@@ -1,0 +1,62 @@
+{{ include 'header'}}
+            <ul class=" nav navbar-right navbar-nav">
+
+                <li class="dropdown"><a  class="dropdown-toggle" data-toggle="dropdown" ><span class="glyphicon glyphicon-user"></span><span></span>
+                    <ul class="dropdown-menu"><li><a href="">个人信息</a></li><li><a  class="exi">退出</a></li> </ul></a>
+
+
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<main>
+    <div class="container">
+        <form action="" role="form" method="post">
+            <textarea name="content" id="answer" cols="30" rows="10" class="form-control"></textarea>
+
+            <button type="submit" class="btn-success form-control">提交</button>
+        </form>
+    </div>
+</main>
+{{include 'modal'}}
+<script src="js/jquery.js"></script>
+
+<script src="js/jquery.min.js"> </script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src="js/template.js"></script>
+<script>
+$(function(){
+var m=$.cookie('name')
+    var q= $.cookie('questions')
+    console.log(q)
+//console.log(m)
+$('.dropdown-toggle').children().eq(1).html(m)
+
+
+
+$('.exi').click(function(){
+$.post('/exit',null,function(res){
+if(res.code=='success') {
+//                        alert($.cookie('name'))
+location.reload()
+}
+})
+
+})
+$('form').submit(function(ev){
+ev.preventDefault()
+    var data=$('form').serialize()
+$.post('/answer', data,function(res){
+//if(res.code=='success'){
+    $('.modal-body').text( '回答成功')
+    $('.modal').modal('show').on('hidden.bs.modal', function() {
+
+        location.href = '/'
+    })
+//}
+})
+})
+})
+</script>

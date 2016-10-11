@@ -1,0 +1,96 @@
+{{ include 'header'}}
+            <ul class=" nav navbar-right navbar-nav">
+                <li><a ><span class="glyphicon glyphicon-plus"></span>提问</a></li>
+                <li class="dropdown"><a id="user" class="dropdown-toggle" data-toggle="dropdown" ><span class="glyphicon glyphicon-user"></span><span>登录</span></a>
+                    <ul class="dropdown-menu"><li><a href="">个人信息</a></li><li><a  class="exi">退出</a></li> </ul>
+
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+ <main>
+   <div class="container ">
+
+       {{each datas as asks index}}
+       <section class="clearfix questions" questions="{{asks.time | times}}">
+       <div class="pull-left">
+           <h4>{{ asks.uname }}</h4>
+           <p>{{ asks.content }}</p>
+           <p>{{ asks.time | dateFormate }}</p>
+       </div>
+       </section>
+       {{ each asks.answer as ans index}}
+ <section class="clearfix">
+       <div class="pull-right">
+       <h4>{{ ans.uname }} </h4>
+       <p>{{ans.content}}</p>
+       <p> {{ans.time | dateFormate}}</p>
+       </div>
+ </section>
+       {{/each}}
+       {{/each}}
+   </div>
+
+ </main>
+{{include 'modal'}}
+    </body>
+    <script src="js/jquery.js"></script>
+
+    <script src="js/jquery.min.js"> </script>
+     <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script src="js/template.js"></script>
+    <script>
+        $(function() {
+            var m = $.cookie('name')
+            console.log(m)
+
+            $('.questions').click(function () {
+                if (m) {
+
+                    $.cookie('questions', $(this).attr('questions'))
+                    location.href = 'answer.html'
+                } else {
+
+
+                    location.href = "login.html"
+                }
+            })
+
+
+            if (m == undefined) {
+                $('.nav a').eq(0).click(function () {
+                    location.href = 'login.html'
+                })
+                $('#user').removeAttr('data-toggle').find('span').last().click(function () {
+                    location.href = 'login.html'
+                })
+
+
+            } else {
+                $('.nav a').eq(0).click(function () {
+                    location.href = 'ask.html'
+                })
+
+                $('.dropdown-toggle').children().eq(1).html(m)
+//                $('.dropdown').append('  ')
+
+
+                $('.exi').click(function () {
+                    $.post('/exit', null, function (res) {
+                        if (res.code == 'success') {
+//                        alert($.cookie('name'))
+                            location.href = '/'
+                        }
+                    })
+
+                })
+            }
+        })
+
+
+
+
+    </script>
+</html>

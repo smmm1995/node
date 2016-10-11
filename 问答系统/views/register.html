@@ -1,0 +1,54 @@
+{{ include 'header'}}
+            <div class="l-center"> <span>注册</span></div>
+
+        </div>
+    </nav>
+    </header>
+<main>
+    <div class="container">
+        <form action="" role="form" method="post">
+            <input type="text" class="form-control" name="name" placeholder="请填写昵称" required>
+            <input type="password" class="form-control" name="pwd" placeholder="请输入密码" required>
+            <input type="password" class="form-control"  placeholder="请再次输入密码" required>
+            <label > <input type="radio" name="sex" class>先生</label>
+            <label > <input type="radio"  name="sex" >女士</label>
+            <button type="submit" class="btn-success form-control">注册</button>
+        </form>
+    </div>
+</main>
+{{include 'modal'}}
+    <script src="js/jquery.min.js"> </script>
+    <script src="js/bootstrap.min.js"></script>
+<script src="js/template.js"></script>
+    <script>
+       $(function(){
+           $('form').submit(function(ev){
+
+               ev.preventDefault()
+               var data=$('form').serialize()
+             var pass=$(':password').map(function(){
+                           return $(this).val()
+                       })
+               if(pass[0]==pass[1]) {
+                   $.post('/register',data, function (res) {
+                       $('.modal-body').text( res.message)
+
+
+                       if(res.code=='success'){
+
+                           $('.modal').modal('show').on('hidden.bs.modal', function() {
+
+                               location.href = 'login.html'
+                           })
+                       }
+
+                   })
+               }else{
+                   $('.modal-body').text( '密码不一致，请重新输入')
+
+               }
+           })
+       })
+    </script>
+</body>
+</html>
